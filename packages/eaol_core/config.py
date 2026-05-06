@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     kafka_bootstrap_servers: str = "localhost:9092"
     zeebe_address: str = "localhost:26500"
     keycloak_issuer: str = "http://localhost:8083/realms/eaol"
+    keycloak_client_id: str = "eaol-dashboard"
+    security_enabled: bool = False
     redis_url: str = "redis://localhost:6379/0"
     object_storage_endpoint: str = "http://localhost:9000"
     smtp_host: str = "localhost"
