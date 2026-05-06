@@ -1,0 +1,60 @@
+{
+  "realm": "eaol",
+  "enabled": true,
+  "registrationAllowed": false,
+  "roles": {
+    "realm": [
+      { "name": "eaol_admin" },
+      { "name": "customer_admin" },
+      { "name": "customer_user" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "eaol-dashboard",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "redirectUris": ["http://localhost:4200/*"],
+      "webOrigins": ["http://localhost:4200"],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true
+    },
+    {
+      "clientId": "eaol-api",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "bearerOnly": true
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "email": "admin@eaol.local",
+      "firstName": "EAOL",
+      "lastName": "Admin",
+      "credentials": [{ "type": "password", "value": "admin", "temporary": false }],
+      "realmRoles": ["eaol_admin"]
+    },
+    {
+      "username": "firma-admin",
+      "enabled": true,
+      "email": "admin@firma-it.local",
+      "firstName": "Firma",
+      "lastName": "Admin",
+      "credentials": [{ "type": "password", "value": "admin", "temporary": false }],
+      "realmRoles": ["customer_admin"]
+    },
+    {
+      "username": "firma-user",
+      "enabled": true,
+      "email": "user@firma-it.local",
+      "firstName": "Firma",
+      "lastName": "User",
+      "credentials": [{ "type": "password", "value": "admin", "temporary": false }],
+      "realmRoles": ["customer_user"]
+    }
+  ]
+}

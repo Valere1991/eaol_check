@@ -1,6 +1,7 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-from apps.api.eaol_api.routers import audit, auth, dashboard, imports, license, notifications, sectors, workflows
+from apps.api.eaol_api.routers import admin, audit, auth, dashboard, imports, license, notifications, sectors, workflows
 
 from apps.api.eaol_api.dependencies import enforce_license
 from packages.eaol_core.ai.providers import get_ai_provider
@@ -13,6 +14,14 @@ app = FastAPI(
     title="EAOL Check API",
     description="Enterprise AI Operating Layer — local-first alpha API",
     version="0.1.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -36,3 +45,4 @@ app.include_router(audit.router)
 app.include_router(auth.router)
 app.include_router(dashboard.router)
 app.include_router(imports.router)
+app.include_router(admin.router)
