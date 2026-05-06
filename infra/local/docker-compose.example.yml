@@ -5,20 +5,20 @@ services:
       POSTGRES_DB: eaol
       POSTGRES_USER: eaol
       POSTGRES_PASSWORD: eaol
-    ports:
-      - "5432:5432"
+    ports: ["5432:5432"]
     volumes:
       - eaol_postgres:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
 
   neo4j:
     image: neo4j:5-community
     environment:
       NEO4J_AUTH: neo4j/eaol-local-password
-    ports:
-      - "7474:7474"
-      - "7687:7687"
+      NEO4J_PLUGINS: '["apoc"]'
+    ports: ["7474:7474", "7687:7687"]
     volumes:
       - eaol_neo4j:/data
+      - ./neo4j:/seed:ro
 
   redpanda:
     image: redpandadata/redpanda:latest
@@ -27,26 +27,89 @@ services:
       - start
       - --overprovisioned
       - --smp=1
-      - --memory=512M
+      - --memory=768M
       - --reserve-memory=0M
       - --node-id=0
       - --check=false
       - --kafka-addr=PLAINTEXT://0.0.0.0:9092
       - --advertise-kafka-addr=PLAINTEXT://localhost:9092
-    ports:
-      - "9092:9092"
+    ports: ["9092:9092", "9644:9644"]
+
+  redpanda-console:
+    image: redpandadata/console:latest
+    environment:
+      KAFKA_BROKERS: redpanda:9092
+    ports: ["8085:8080"]
+    depends_on: [redpanda]
 
   zeebe:
     image: camunda/zeebe:8.6.8
     environment:
       ZEEBE_BROKER_GATEWAY_SECURITY_AUTHENTICATION_MODE: none
-    ports:
-      - "26500:26500"
-      - "9600:9600"
+      ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_CLASSNAME: io.camunda.zeebe.exporter.ElasticsearchExporter
+      ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_URL: http://elasticsearch:9200
+    ports: ["26500:26500", "9600:9600"]
+    depends_on: [elasticsearch]
     volumes:
       - eaol_zeebe:/usr/local/zeebe/data
+
+  operate:
+    image: camunda/operate:8.6.8
+    environment:
+      CAMUNDA_OPERATE_ZEEBE_GATEWAYADDRESS: zeebe:26500
+      CAMUNDA_OPERATE_ELASTICSEARCH_URL: http://elasticsearch:9200
+      CAMUNDA_OPERATE_ZEEBEELASTICSEARCH_URL: http://elasticsearch:9200
+    ports: ["8081:8080"]
+    depends_on: [zeebe, elasticsearch]
+
+  tasklist:
+    image: camunda/tasklist:8.6.8
+    environment:
+      CAMUNDA_TASKLIST_ZEEBE_GATEWAYADDRESS: zeebe:26500
+      CAMUNDA_TASKLIST_ELASTICSEARCH_URL: http://elasticsearch:9200
+      CAMUNDA_TASKLIST_ZEEBEELASTICSEARCH_URL: http://elasticsearch:9200
+    ports: ["8082:8080"]
+    depends_on: [zeebe, elasticsearch]
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    ports: ["9200:9200"]
+    volumes:
+      - eaol_elasticsearch:/usr/share/elasticsearch/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports: ["8083:8080"]
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: eaolminio
+      MINIO_ROOT_PASSWORD: eaolminio123
+    ports: ["9000:9000", "9001:9001"]
+    volumes:
+      - eaol_minio:/data
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports: ["1025:1025", "8025:8025"]
 
 volumes:
   eaol_postgres:
   eaol_neo4j:
   eaol_zeebe:
+  eaol_elasticsearch:
+  eaol_minio:

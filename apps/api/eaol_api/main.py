@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+from apps.api.eaol_api.routers import license, notifications, sectors, workflows
+
 from packages.eaol_core.ai.providers import get_ai_provider
 from packages.eaol_core.config import settings
 from packages.eaol_core.domain.models import CausalAnalysisRequest, CausalAnalysisResponse
@@ -21,3 +23,9 @@ def health() -> dict[str, str]:
 async def causal_analysis(payload: CausalAnalysisRequest) -> CausalAnalysisResponse:
     engine = HybridReasoningEngine(get_ai_provider(settings.ai_provider))
     return await engine.analyze(payload)
+
+
+app.include_router(license.router)
+app.include_router(notifications.router)
+app.include_router(sectors.router)
+app.include_router(workflows.router)

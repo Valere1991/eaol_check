@@ -1,0 +1,23 @@
+flowchart TB
+  UI[Web/Admin UI] --> API[EAOL API]
+  API --> LIC[License Service]
+  API --> AUTH[OIDC/SAML + RBAC/ABAC]
+  API --> REASON[Hybrid Reasoning]
+  API --> WAPI[Workflow Facade]
+  API --> NOTIF[Notification Service]
+  ING[Ingestion Service] --> KAFKA[(Kafka/Redpanda)]
+  CONN[Connector Factory] --> ING
+  KAFKA --> NORM[Normalization]
+  NORM --> PG[(Postgres + pgvector)]
+  NORM --> KG[(Neo4j)]
+  NORM --> OBJ[(Object Store)]
+  REASON --> PG
+  REASON --> KG
+  REASON --> AI[AI Provider Boundary]
+  WAPI --> CAM[(Camunda Zeebe)]
+  CAM --> WORKERS[EAOL Workers]
+  WORKERS --> REASON
+  WORKERS --> NOTIF
+  NOTIF --> CH[Email / Teams / Slack / SMS / Webhook]
+  API --> AUDIT[(Audit Ledger)]
+  WORKERS --> AUDIT
