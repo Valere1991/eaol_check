@@ -1,0 +1,10 @@
+{
+  "tenant_id": "demo",
+  "case_id": "margin-drop-q2",
+  "question": "Pourquoi la marge a-t-elle chuté sur la ligne produit A ?",
+  "signals": [
+    {"type": "transaction", "name": "COGS", "value": 18.7, "unit": "% increase", "source": "erp"},
+    {"type": "supplier", "name": "Supplier ACME", "value": "late deliveries", "source": "procurement"},
+    {"type": "incident", "name": "Production delay", "value": "line 3 bottleneck", "source": "mes"}
+  ]
+}

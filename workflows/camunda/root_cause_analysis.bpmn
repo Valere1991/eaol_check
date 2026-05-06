@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_EAOL" targetNamespace="https://eaol.local/bpmn">
+  <bpmn:process id="eaol-root-cause-analysis" name="EAOL Root Cause Analysis" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Anomaly" name="Business anomaly detected">
+      <bpmn:outgoing>Flow_Start_Collect</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Task_CollectContext" name="Collect context">
+      <bpmn:extensionElements><zeebe:taskDefinition type="eaol.collect-context" /></bpmn:extensionElements>
+      <bpmn:incoming>Flow_Start_Collect</bpmn:incoming><bpmn:outgoing>Flow_Collect_Analyze</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_RunReasoning" name="Run causal reasoning">
+      <bpmn:extensionElements><zeebe:taskDefinition type="eaol.run-causal-reasoning" /></bpmn:extensionElements>
+      <bpmn:incoming>Flow_Collect_Analyze</bpmn:incoming><bpmn:incoming>Flow_Enrich_Analyze</bpmn:incoming><bpmn:outgoing>Flow_Analyze_Gateway</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_Confidence" name="Confidence acceptable?">
+      <bpmn:incoming>Flow_Analyze_Gateway</bpmn:incoming><bpmn:outgoing>Flow_Gateway_Recommend</bpmn:outgoing><bpmn:outgoing>Flow_Gateway_Enrich</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_DataStewardEnrichment" name="Data steward enrichment">
+      <bpmn:incoming>Flow_Gateway_Enrich</bpmn:incoming><bpmn:outgoing>Flow_Enrich_Analyze</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_GenerateActions" name="Generate next-best actions">
+      <bpmn:extensionElements><zeebe:taskDefinition type="eaol.generate-actions" /></bpmn:extensionElements>
+      <bpmn:incoming>Flow_Gateway_Recommend</bpmn:incoming><bpmn:outgoing>Flow_Recommend_Approval</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Task_HumanApproval" name="Human approval">
+      <bpmn:incoming>Flow_Recommend_Approval</bpmn:incoming><bpmn:outgoing>Flow_Approval_Gateway</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Approved" name="Approved?">
+      <bpmn:incoming>Flow_Approval_Gateway</bpmn:incoming><bpmn:outgoing>Flow_Approved_Execute</bpmn:outgoing><bpmn:outgoing>Flow_Rejected_Audit</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Task_ExecuteApprovedAction" name="Execute approved action">
+      <bpmn:extensionElements><zeebe:taskDefinition type="eaol.execute-approved-action" /></bpmn:extensionElements>
+      <bpmn:incoming>Flow_Approved_Execute</bpmn:incoming><bpmn:outgoing>Flow_Execute_Audit</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_WriteAuditTrace" name="Write audit trace">
+      <bpmn:extensionElements><zeebe:taskDefinition type="eaol.write-audit-trace" /></bpmn:extensionElements>
+      <bpmn:incoming>Flow_Execute_Audit</bpmn:incoming><bpmn:incoming>Flow_Rejected_Audit</bpmn:incoming><bpmn:outgoing>Flow_Audit_End</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_CaseClosed" name="Case closed">
+      <bpmn:incoming>Flow_Audit_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Start_Collect" sourceRef="StartEvent_Anomaly" targetRef="Task_CollectContext" />
+    <bpmn:sequenceFlow id="Flow_Collect_Analyze" sourceRef="Task_CollectContext" targetRef="Task_RunReasoning" />
+    <bpmn:sequenceFlow id="Flow_Analyze_Gateway" sourceRef="Task_RunReasoning" targetRef="Gateway_Confidence" />
+    <bpmn:sequenceFlow id="Flow_Gateway_Recommend" sourceRef="Gateway_Confidence" targetRef="Task_GenerateActions" />
+    <bpmn:sequenceFlow id="Flow_Gateway_Enrich" sourceRef="Gateway_Confidence" targetRef="Task_DataStewardEnrichment" />
+    <bpmn:sequenceFlow id="Flow_Enrich_Analyze" sourceRef="Task_DataStewardEnrichment" targetRef="Task_RunReasoning" />
+    <bpmn:sequenceFlow id="Flow_Recommend_Approval" sourceRef="Task_GenerateActions" targetRef="Task_HumanApproval" />
+    <bpmn:sequenceFlow id="Flow_Approval_Gateway" sourceRef="Task_HumanApproval" targetRef="Gateway_Approved" />
+    <bpmn:sequenceFlow id="Flow_Approved_Execute" sourceRef="Gateway_Approved" targetRef="Task_ExecuteApprovedAction" />
+    <bpmn:sequenceFlow id="Flow_Rejected_Audit" sourceRef="Gateway_Approved" targetRef="Task_WriteAuditTrace" />
+    <bpmn:sequenceFlow id="Flow_Execute_Audit" sourceRef="Task_ExecuteApprovedAction" targetRef="Task_WriteAuditTrace" />
+    <bpmn:sequenceFlow id="Flow_Audit_End" sourceRef="Task_WriteAuditTrace" targetRef="EndEvent_CaseClosed" />
+  </bpmn:process>
+</bpmn:definitions>

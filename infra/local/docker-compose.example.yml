@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: eaol
+      POSTGRES_USER: eaol
+      POSTGRES_PASSWORD: eaol
+    ports:
+      - "5432:5432"
+    volumes:
+      - eaol_postgres:/var/lib/postgresql/data
+
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: neo4j/eaol-local-password
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - eaol_neo4j:/data
+
+  redpanda:
+    image: redpandadata/redpanda:latest
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp=1
+      - --memory=512M
+      - --reserve-memory=0M
+      - --node-id=0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr=PLAINTEXT://localhost:9092
+    ports:
+      - "9092:9092"
+
+  zeebe:
+    image: camunda/zeebe:8.6.8
+    environment:
+      ZEEBE_BROKER_GATEWAY_SECURITY_AUTHENTICATION_MODE: none
+    ports:
+      - "26500:26500"
+      - "9600:9600"
+    volumes:
+      - eaol_zeebe:/usr/local/zeebe/data
+
+volumes:
+  eaol_postgres:
+  eaol_neo4j:
+  eaol_zeebe:

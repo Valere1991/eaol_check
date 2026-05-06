@@ -1,0 +1,13 @@
+[project]
+name = "eaol-check"
+version = "0.1.0"
+description = "Enterprise AI Operating Layer local-first alpha architecture"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+src = ["apps", "packages", "tests"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
