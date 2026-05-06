@@ -1,4 +1,7 @@
 from fastapi import APIRouter
+
+from apps.api.eaol_api.dependencies import enforce_license
+from packages.eaol_core.licensing.models import LicenseFeature
 from pydantic import BaseModel
 
 
@@ -14,6 +17,7 @@ router = APIRouter(prefix="/api/v1/workflows", tags=["workflows"])
 
 @router.post("/start")
 def start_workflow(payload: WorkflowStartRequest) -> dict[str, str]:
+    enforce_license(payload.tenant_id, LicenseFeature.CAMUNDA_WORKFLOWS)
     # Boundary for Camunda Zeebe client. Local alpha returns deterministic placeholder.
     return {
         "status": "accepted",

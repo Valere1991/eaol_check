@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -13,9 +13,10 @@ def test_license_allows_enterprise_feature() -> None:
     license_ = License(
         license_id="lic-1",
         tenant_id="demo",
+        customer_name="Demo",
         tier=LicenseTier.ENTERPRISE,
-        starts_on=date.today() - timedelta(days=1),
-        expires_on=date.today() + timedelta(days=1),
+        valid_from=datetime.now(UTC) - timedelta(days=1),
+        valid_until=datetime.now(UTC) + timedelta(days=1),
         max_users=100,
         max_connectors=10,
         max_events_per_month=1000,

@@ -1,9 +1,11 @@
 from fastapi import APIRouter, File, UploadFile
 
+from apps.api.eaol_api.dependencies import enforce_license
 from packages.eaol_core.audit.models import AuditRecord
 from packages.eaol_core.audit.store import SQLiteAuditStore
 from packages.eaol_core.importers.it_csv import import_it_csv
 from packages.eaol_core.it.models import ITImportResult
+from packages.eaol_core.licensing.models import LicenseFeature
 
 router = APIRouter(prefix="/api/v1/imports", tags=["imports"])
 
@@ -14,6 +16,7 @@ async def import_it_dataset(
     tenant_id: str = "demo",
     file: UploadFile = File(...),
 ) -> ITImportResult:
+    enforce_license(tenant_id, LicenseFeature.CSV_IMPORT)
     content = await file.read()
     result = import_it_csv(
         tenant_id=tenant_id,

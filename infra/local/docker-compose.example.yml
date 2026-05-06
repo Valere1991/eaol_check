@@ -71,6 +71,14 @@ services:
     ports: ["8082:8080"]
     depends_on: [zeebe, elasticsearch]
 
+  camunda-proxy:
+    image: nginx:1.27-alpine
+    ports: ["8090:8080"]
+    volumes:
+      - ./nginx/camunda.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/camunda-basic-auth.htpasswd:/etc/nginx/conf.d/camunda-basic-auth.htpasswd:ro
+    depends_on: [operate, tasklist]
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
     environment:

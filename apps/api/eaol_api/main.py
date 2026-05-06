@@ -2,9 +2,11 @@ from fastapi import FastAPI
 
 from apps.api.eaol_api.routers import audit, auth, dashboard, imports, license, notifications, sectors, workflows
 
+from apps.api.eaol_api.dependencies import enforce_license
 from packages.eaol_core.ai.providers import get_ai_provider
 from packages.eaol_core.config import settings
 from packages.eaol_core.domain.models import CausalAnalysisRequest, CausalAnalysisResponse
+from packages.eaol_core.licensing.models import LicenseFeature
 from packages.eaol_core.reasoning.engine import HybridReasoningEngine
 
 app = FastAPI(
@@ -21,6 +23,7 @@ def health() -> dict[str, str]:
 
 @app.post("/api/v1/causal-analysis", response_model=CausalAnalysisResponse)
 async def causal_analysis(payload: CausalAnalysisRequest) -> CausalAnalysisResponse:
+    enforce_license(payload.tenant_id, LicenseFeature.CAUSAL_INTELLIGENCE)
     engine = HybridReasoningEngine(get_ai_provider(settings.ai_provider))
     return await engine.analyze(payload)
 

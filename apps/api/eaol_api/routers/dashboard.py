@@ -22,7 +22,7 @@ def dashboard() -> str:
 <body>
   <h1>EAOL IT Pilot Dashboard</h1>
   <div class="card">
-    <p>Minimal local dashboard for IT-domain pilot testing.</p>
+    <p>Minimal local dashboard for IT-domain pilot testing. Default tenant: <strong>firma-it</strong>.</p>
     <button onclick="loadHealth()">Check Health</button>
     <button onclick="loadSectors()">Load Sectors</button>
     <button onclick="loadAudit()">Load Audit</button>
@@ -35,7 +35,7 @@ def dashboard() -> str:
     }
     function loadHealth(){ show('/health'); }
     function loadSectors(){ show('/api/v1/sectors/it_operations'); }
-    function loadAudit(){ show('/api/v1/audit/demo'); }
+    function loadAudit(){ show('/api/v1/audit/firma-it'); }
   </script>
 </body>
 </html>
