@@ -1,0 +1,4 @@
+incident_id,tenant_id,opened_at,service_id,service_name,severity,status,title,description,affected_users,downtime_minutes,source_system
+IT-INC-1001,demo,2026-05-05T08:10:00Z,SVC-PAYMENTS,Payments API,critical,resolved,Payments API latency spike,Checkout payments timed out after deployment CHG-7001,1200,47,Jira
+IT-INC-1002,demo,2026-05-05T08:34:00Z,SVC-PAYMENTS,Payments API,high,resolved,Database connection pool exhausted,Connection pool saturation on payments-db-primary,850,31,ServiceNow
+IT-INC-1003,demo,2026-05-05T10:20:00Z,SVC-CRM,CRM Portal,medium,open,CRM login intermittent,OIDC callback timeout for some users,96,12,Jira

@@ -1,0 +1,341 @@
+{
+  "info": {
+    "name": "EAOL Local API",
+    "description": "Local Postman collection for EAOL Check pilot testing.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 - Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "02 - List sector packs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/sectors",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "sectors"
+          ]
+        }
+      }
+    },
+    {
+      "name": "03 - Get manufacturing sector pack",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/sectors/mechanical_industry",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "sectors",
+            "mechanical_industry"
+          ]
+        }
+      }
+    },
+    {
+      "name": "04 - Check causal intelligence license",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/licenses/{{tenant_id}}/features/causal_intelligence",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "licenses",
+            "{{tenant_id}}",
+            "features",
+            "causal_intelligence"
+          ]
+        }
+      }
+    },
+    {
+      "name": "05 - Check Camunda workflows license",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/licenses/{{tenant_id}}/features/camunda_workflows",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "licenses",
+            "{{tenant_id}}",
+            "features",
+            "camunda_workflows"
+          ]
+        }
+      }
+    },
+    {
+      "name": "06 - Run causal analysis - margin drop",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant_id\": \"demo\",\n  \"case_id\": \"pilot-margin-drop-prod-a-april-2026\",\n  \"question\": \"Pourquoi la marge du produit Hydraulic Pump A a-t-elle chuté en avril 2026 ?\",\n  \"signals\": [\n    {\n      \"type\": \"transaction\",\n      \"name\": \"Raw material cost increase for Hydraulic Pump A\",\n      \"value\": 21.9,\n      \"unit\": \"% above baseline\",\n      \"source\": \"ERP\",\n      \"confidence\": 0.92\n    },\n    {\n      \"type\": \"supplier\",\n      \"name\": \"Supplier ACME on-time delivery degradation\",\n      \"value\": \"71% on-time delivery, high risk\",\n      \"source\": \"Procurement\",\n      \"confidence\": 0.88\n    },\n    {\n      \"type\": \"incident\",\n      \"name\": \"Line 3 bottleneck after missing components\",\n      \"value\": \"18 hours downtime, 58000 EUR impact\",\n      \"source\": \"MES\",\n      \"confidence\": 0.9\n    },\n    {\n      \"type\": \"incident\",\n      \"name\": \"Seal defect detected during QA\",\n      \"value\": \"14300 EUR rework impact\",\n      \"source\": \"QMS\",\n      \"confidence\": 0.79\n    },\n    {\n      \"type\": \"document\",\n      \"name\": \"Supplier ACME escalation email\",\n      \"value\": \"component shortage and delayed shipments for Pump A\",\n      \"source\": \"SharePoint\",\n      \"confidence\": 0.76\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/causal-analysis",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "causal-analysis"
+          ]
+        }
+      }
+    },
+    {
+      "name": "07 - Start root-cause workflow",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant_id\": \"{{tenant_id}}\",\n  \"case_id\": \"{{case_id}}\",\n  \"workflow_key\": \"eaol-root-cause-analysis\",\n  \"variables\": {\n    \"product_id\": \"PROD-A\",\n    \"supplier_id\": \"SUP-ACME\",\n    \"severity\": \"high\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/workflows/start",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "workflows",
+            "start"
+          ]
+        }
+      }
+    },
+    {
+      "name": "08 - Send in-app notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant_id\": \"{{tenant_id}}\",\n  \"correlation_id\": \"{{case_id}}\",\n  \"channel\": \"in_app\",\n  \"severity\": \"warning\",\n  \"subject\": \"EAOL root-cause analysis completed\",\n  \"message\": \"Probable cause: supplier ACME delay + Line 3 bottleneck + QA rework. Human approval required.\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/notifications",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "notifications"
+          ]
+        }
+      }
+    },
+    {
+      "name": "09 - Import IT incidents CSV",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/imports/it/incidents?tenant_id={{tenant_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "imports",
+            "it",
+            "incidents"
+          ]
+        },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "samples/pilot-it/incidents.csv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "10 - Import IT changes CSV",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/imports/it/changes?tenant_id={{tenant_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "imports",
+            "it",
+            "changes"
+          ]
+        },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "samples/pilot-it/changes.csv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "11 - Import IT alerts CSV",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/imports/it/alerts?tenant_id={{tenant_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "imports",
+            "it",
+            "alerts"
+          ]
+        },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "samples/pilot-it/alerts.csv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "12 - List audit records",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/audit/{{tenant_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "audit",
+            "{{tenant_id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "13 - OIDC local config",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/auth/oidc-local",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "oidc-local"
+          ]
+        }
+      }
+    },
+    {
+      "name": "14 - German IT causal analysis",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/causal-analysis",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "causal-analysis"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant_id\": \"demo\",\n  \"case_id\": \"pilot-it-payments-latency-2026-05-05\",\n  \"question\": \"Warum ist die Payments API am 5. Mai 2026 langsamer geworden?\",\n  \"signals\": [\n    {\n      \"type\": \"incident\",\n      \"name\": \"Payments API latency spike\",\n      \"value\": \"1200 affected users, 47 minutes downtime\",\n      \"source\": \"Jira\",\n      \"confidence\": 0.93\n    },\n    {\n      \"type\": \"process\",\n      \"name\": \"Deploy payments-api version 2.14.0\",\n      \"value\": \"High-risk change implemented 15 minutes before incident\",\n      \"source\": \"Jira\",\n      \"confidence\": 0.89\n    },\n    {\n      \"type\": \"risk\",\n      \"name\": \"Database connection pool exhausted\",\n      \"value\": \"98% DB connections used, threshold 80%\",\n      \"source\": \"Datadog\",\n      \"confidence\": 0.91\n    }\n  ]\n}"
+        }
+      }
+    }
+  ]
+}

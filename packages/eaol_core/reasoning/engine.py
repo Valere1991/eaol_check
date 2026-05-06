@@ -1,4 +1,5 @@
 from packages.eaol_core.ai.providers import AIProvider
+from packages.eaol_core.i18n.language import detect_language, localize_synthesis
 from packages.eaol_core.domain.models import (
     CausalAnalysisRequest,
     CausalAnalysisResponse,
@@ -68,7 +69,8 @@ class HybridReasoningEngine:
                 )
             )
 
-        synthesis = await self.ai_provider.complete(request.question)
+        language = detect_language(request.question)
+        synthesis = localize_synthesis(language)
         return CausalAnalysisResponse(
             tenant_id=request.tenant_id,
             case_id=request.case_id,
@@ -92,5 +94,6 @@ class HybridReasoningEngine:
                 "mode": "human-in-the-loop",
                 "explainability": "evidence_trace_required",
                 "policy": "no_external_action_without_approval",
+                "response_language": language.value,
             },
         )

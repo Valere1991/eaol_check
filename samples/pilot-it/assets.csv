@@ -1,0 +1,4 @@
+asset_id,tenant_id,service_id,asset_type,name,environment,criticality,owner_team,source_system
+AST-DB-001,demo,SVC-PAYMENTS,postgres,payments-db-primary,prod,critical,database-team,CMDB
+AST-API-001,demo,SVC-PAYMENTS,kubernetes_deployment,payments-api,prod,critical,platform-team,CMDB
+AST-IDP-001,demo,SVC-CRM,keycloak,customer-keycloak,prod,high,identity-team,CMDB

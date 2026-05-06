@@ -1,0 +1,28 @@
+{
+  "tenant_id": "demo",
+  "case_id": "pilot-it-payments-latency-2026-05-05",
+  "question": "Warum ist die Payments API am 5. Mai 2026 langsamer geworden?",
+  "signals": [
+    {
+      "type": "incident",
+      "name": "Payments API latency spike",
+      "value": "1200 affected users, 47 minutes downtime",
+      "source": "Jira",
+      "confidence": 0.93
+    },
+    {
+      "type": "process",
+      "name": "Deploy payments-api version 2.14.0",
+      "value": "High-risk change implemented 15 minutes before incident",
+      "source": "Jira",
+      "confidence": 0.89
+    },
+    {
+      "type": "risk",
+      "name": "Database connection pool exhausted",
+      "value": "98% DB connections used, threshold 80%",
+      "source": "Datadog",
+      "confidence": 0.91
+    }
+  ]
+}

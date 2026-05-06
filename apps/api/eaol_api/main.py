@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from apps.api.eaol_api.routers import license, notifications, sectors, workflows
+from apps.api.eaol_api.routers import audit, auth, dashboard, imports, license, notifications, sectors, workflows
 
 from packages.eaol_core.ai.providers import get_ai_provider
 from packages.eaol_core.config import settings
@@ -29,3 +29,7 @@ app.include_router(license.router)
 app.include_router(notifications.router)
 app.include_router(sectors.router)
 app.include_router(workflows.router)
+app.include_router(audit.router)
+app.include_router(auth.router)
+app.include_router(dashboard.router)
+app.include_router(imports.router)

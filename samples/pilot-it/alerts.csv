@@ -1,0 +1,4 @@
+alert_id,tenant_id,raised_at,service_id,metric,value,threshold,severity,source_system
+ALT-9001,demo,2026-05-05T08:07:00Z,SVC-PAYMENTS,p95_latency_ms,4200,800,critical,Datadog
+ALT-9002,demo,2026-05-05T08:12:00Z,SVC-PAYMENTS,db_connections_used_percent,98,80,critical,Datadog
+ALT-9003,demo,2026-05-05T10:18:00Z,SVC-CRM,oidc_callback_errors,37,5,warning,Datadog
