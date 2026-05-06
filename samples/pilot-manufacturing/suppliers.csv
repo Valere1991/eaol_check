@@ -1,0 +1,4 @@
+supplier_id,supplier_name,country,risk_level,on_time_delivery_percent,quality_score,last_incident_date,contract_id,source_system
+SUP-ACME,Supplier ACME,DE,high,71,82,2026-04-12,CTR-9001,Procurement
+SUP-NOVA,Supplier Nova,FR,low,94,96,,CTR-9002,Procurement
+SUP-ORION,Supplier Orion,ES,medium,86,89,2026-03-28,CTR-9003,Procurement

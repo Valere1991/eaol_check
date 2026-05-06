@@ -1,0 +1,43 @@
+{
+  "tenant_id": "demo",
+  "case_id": "pilot-margin-drop-prod-a-april-2026",
+  "question": "Pourquoi la marge du produit Hydraulic Pump A a-t-elle chuté en avril 2026 ?",
+  "signals": [
+    {
+      "type": "transaction",
+      "name": "Raw material cost increase for Hydraulic Pump A",
+      "value": 21.9,
+      "unit": "% above baseline",
+      "source": "ERP",
+      "confidence": 0.92
+    },
+    {
+      "type": "supplier",
+      "name": "Supplier ACME on-time delivery degradation",
+      "value": "71% on-time delivery, high risk",
+      "source": "Procurement",
+      "confidence": 0.88
+    },
+    {
+      "type": "incident",
+      "name": "Line 3 bottleneck after missing components",
+      "value": "18 hours downtime, 58000 EUR impact",
+      "source": "MES",
+      "confidence": 0.9
+    },
+    {
+      "type": "incident",
+      "name": "Seal defect detected during QA",
+      "value": "14300 EUR rework impact",
+      "source": "QMS",
+      "confidence": 0.79
+    },
+    {
+      "type": "document",
+      "name": "Supplier ACME escalation email",
+      "value": "component shortage and delayed shipments for Pump A",
+      "source": "SharePoint",
+      "confidence": 0.76
+    }
+  ]
+}

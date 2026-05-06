@@ -1,0 +1,6 @@
+transaction_id,date,tenant_id,product_id,product_name,cost_type,amount_eur,baseline_amount_eur,delta_percent,supplier_id,project_id,source_system
+TX-1001,2026-04-01,demo,PROD-A,Hydraulic Pump A,raw_material,128000,105000,21.90,SUP-ACME,PRJ-ALPHA,ERP
+TX-1002,2026-04-08,demo,PROD-A,Hydraulic Pump A,transport,24000,18000,33.33,SUP-ACME,PRJ-ALPHA,ERP
+TX-1003,2026-04-15,demo,PROD-A,Hydraulic Pump A,overtime,18700,9500,96.84,,PRJ-ALPHA,ERP
+TX-1004,2026-04-22,demo,PROD-A,Hydraulic Pump A,rework,11300,4200,169.05,,PRJ-ALPHA,QMS
+TX-1005,2026-04-29,demo,PROD-B,Valve B,raw_material,67000,65000,3.08,SUP-NOVA,PRJ-BETA,ERP

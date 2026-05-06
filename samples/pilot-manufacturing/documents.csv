@@ -1,0 +1,4 @@
+document_id,date,tenant_id,title,document_type,related_entity_id,summary,source_system
+DOC-001,2026-04-11,demo,Supplier ACME escalation email,email,SUP-ACME,"ACME confirms component shortage and warns about delayed shipments for Pump A.",SharePoint
+DOC-002,2026-04-17,demo,Line 3 production report,report,MCH-L3,"Production line 3 lost 18 hours because components arrived late and changeover was repeated.",MES
+DOC-003,2026-04-22,demo,QA defect note,quality_note,PROD-A,"Seal defect rate increased after batch from Supplier ACME; QA recommends supplier review.",QMS

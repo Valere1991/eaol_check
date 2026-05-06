@@ -1,0 +1,5 @@
+incident_id,date,tenant_id,incident_type,title,severity,product_id,machine_id,supplier_id,duration_hours,impact_eur,status,source_system
+INC-501,2026-04-10,demo,supplier_delay,Late shipment from Supplier ACME,high,PROD-A,,SUP-ACME,36,42000,closed,Procurement
+INC-502,2026-04-16,demo,production_bottleneck,Line 3 bottleneck after missing components,critical,PROD-A,MCH-L3,,18,58000,closed,MES
+INC-503,2026-04-21,demo,quality_defect,Seal defect detected during QA,medium,PROD-A,MCH-QA1,SUP-ACME,7,14300,open,QMS
+INC-504,2026-04-24,demo,it_incident,MES synchronization delay,low,PROD-A,, ,2,3000,closed,ITSM
