@@ -62,3 +62,11 @@ The alpha must work in three levels:
 3. **Enterprise mode later**: Kubernetes, observability, SIEM, SSO, managed secrets.
 
 DevOps hardening is intentionally deferred, but architecture boundaries are already enterprise-grade.
+
+## Enterprise blueprint
+
+A complete non-implementation architecture package for EAOL enterprise readiness is available in:
+
+- [EAOL Enterprise Blueprint](./eaol-enterprise-blueprint/README.md)
+
+It covers target architecture, development flow, Kubernetes/OKD deployment, customer delivery, enterprise system integration, security/compliance, sprint planning through production, and profitability/business model.

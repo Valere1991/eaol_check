@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="420" viewBox="0 0 1024 420">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  <text x="512.0" y="34" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800" fill="#0f172a">EAOL Business Model &amp; Profitability Flywheel</text>
+  <g font-family="Inter, Arial, sans-serif">
+  
+    <rect x="80" y="95" width="210" height="78" rx="14" fill="#ffffff" stroke="#2563eb" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="80" y="95" width="210" height="30" rx="14" fill="#2563eb"/>
+    <text x="185.0" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="white">Paid Pilot</text>
+    <text x="94" y="147" font-size="12" fill="#0f172a">6-8 weeks, ROI proof</text>
+    
+    <rect x="345" y="55" width="210" height="78" rx="14" fill="#ffffff" stroke="#16a34a" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="345" y="55" width="210" height="30" rx="14" fill="#16a34a"/>
+    <text x="450.0" y="75" text-anchor="middle" font-size="13" font-weight="700" fill="white">Production License</text>
+    <text x="359" y="107" font-size="12" fill="#0f172a">ARR, SLA, support</text>
+    
+    <rect x="650" y="95" width="210" height="78" rx="14" fill="#ffffff" stroke="#0891b2" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="650" y="95" width="210" height="30" rx="14" fill="#0891b2"/>
+    <text x="755.0" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="white">Connectors</text>
+    <text x="664" y="147" font-size="12" fill="#0f172a">premium integrations</text>
+    
+    <rect x="650" y="240" width="210" height="78" rx="14" fill="#ffffff" stroke="#7c3aed" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="650" y="240" width="210" height="30" rx="14" fill="#7c3aed"/>
+    <text x="755.0" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="white">Vertical Packs</text>
+    <text x="664" y="292" font-size="12" fill="#0f172a">industry modules</text>
+    
+    <rect x="345" y="280" width="210" height="78" rx="14" fill="#ffffff" stroke="#ea580c" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="345" y="280" width="210" height="30" rx="14" fill="#ea580c"/>
+    <text x="450.0" y="300" text-anchor="middle" font-size="13" font-weight="700" fill="white">Expansion</text>
+    <text x="359" y="332" font-size="12" fill="#0f172a">more departments</text>
+    
+    <rect x="80" y="240" width="210" height="78" rx="14" fill="#ffffff" stroke="#dc2626" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="80" y="240" width="210" height="30" rx="14" fill="#dc2626"/>
+    <text x="185.0" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="white">Retention</text>
+    <text x="94" y="292" font-size="12" fill="#0f172a">sticky knowledge layer</text>
+    <line x1="185" y1="134" x2="450" y2="94" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><line x1="450" y1="94" x2="755" y2="134" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><line x1="755" y1="134" x2="755" y2="279" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><line x1="755" y1="279" x2="450" y2="319" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><line x1="450" y1="319" x2="185" y2="279" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><line x1="185" y1="279" x2="185" y2="134" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="512" y="210" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a">Objectif: ACV élevé + expansion + NRR &gt; 120%</text>
+  </g>
+</svg>

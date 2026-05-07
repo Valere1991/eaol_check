@@ -1,0 +1,27 @@
+sequenceDiagram
+  participant User
+  participant API
+  participant Policy
+  participant Retrieval
+  participant Graph
+  participant Vector
+  participant Rules
+  participant LLM
+  participant Audit
+  participant Workflow
+
+  User->>API: Ask why anomaly happened
+  API->>Policy: Validate tenant, role, data scope
+  Policy-->>API: Allowed scope
+  API->>Retrieval: Build evidence context
+  Retrieval->>Graph: Traverse dependencies and impacts
+  Retrieval->>Vector: Search documents/tickets
+  Retrieval->>Rules: Load domain rules and thresholds
+  Retrieval-->>API: Evidence pack
+  API->>LLM: Synthesize with bounded context
+  LLM-->>API: Explanation draft
+  API->>Policy: Claim/evidence/action validation
+  API->>Audit: Store question, evidence, answer, policy
+  API-->>User: Causes, confidence, evidence, next actions
+  User->>Workflow: Approve action if needed
+  Workflow->>Audit: Store approval and execution trace

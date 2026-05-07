@@ -1,0 +1,55 @@
+flowchart TB
+  subgraph Edge
+    DNS[DNS]
+    WAF[WAF / Reverse Proxy]
+    INGRESS[Ingress / OpenShift Route]
+  end
+  DNS --> WAF --> INGRESS
+
+  subgraph eaol-prod
+    UI[Web UI]
+    API[API Gateway]
+    RS[Reasoning Service]
+    ING[Ingestion Workers]
+    WF[Workflow Workers]
+    NOTIF[Notification Service]
+  end
+
+  subgraph eaol-data
+    PG[(PostgreSQL)]
+    KG[(Neo4j)]
+    KAFKA[(Kafka / Strimzi)]
+    OBJ[(MinIO / S3)]
+  end
+
+  subgraph eaol-security
+    IAM[Keycloak / Enterprise IdP]
+    SECRETS[Vault / External Secrets]
+    POL[OPA / Gatekeeper]
+  end
+
+  subgraph eaol-observability
+    OTEL[OpenTelemetry]
+    PROM[Prometheus]
+    GRAF[Grafana]
+    LOKI[Loki / Tempo]
+    SIEM[Client SIEM]
+  end
+
+  INGRESS --> UI --> API
+  API --> IAM
+  API --> RS
+  API --> WF
+  ING --> KAFKA --> PG
+  ING --> KG
+  RS --> PG
+  RS --> KG
+  RS --> OBJ
+  API --> OTEL
+  RS --> OTEL
+  ING --> OTEL
+  OTEL --> PROM --> GRAF
+  OTEL --> LOKI
+  LOKI --> SIEM
+  SECRETS --> API
+  POL --> API

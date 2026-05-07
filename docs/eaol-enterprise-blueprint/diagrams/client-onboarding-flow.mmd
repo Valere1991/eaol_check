@@ -1,0 +1,16 @@
+flowchart TD
+  A[Executive discovery] --> B[Use case selection]
+  B --> C[Security and legal review]
+  C --> D[SI mapping workshop]
+  D --> E[Data contracts and connector plan]
+  E --> F[Read-only pilot deployment]
+  F --> G[Ingestion and normalization]
+  G --> H[Business validation of explanations]
+  H --> I[ROI review]
+  I --> J{Go production?}
+  J -- No --> K[Refine use case / data quality]
+  K --> F
+  J -- Yes --> L[Production hardening]
+  L --> M[Action workflows and approvals]
+  M --> N[Training and rollout]
+  N --> O[Expansion roadmap]

@@ -1,0 +1,15 @@
+flowchart LR
+  Z1[User Zone] --> Z2[Edge Zone]
+  Z2 --> Z3[Application Zone]
+  Z3 --> Z4[Integration Zone]
+  Z3 --> Z5[Data Zone]
+  Z3 --> Z6[AI Boundary Zone]
+  Z3 --> Z7[Ops Zone]
+
+  Z1 -. SSO .-> IDP[Enterprise IdP]
+  Z2 -. TLS / WAF .-> EDGE[Ingress]
+  Z3 -. RBAC / ABAC .-> POLICY[Policy Engine]
+  Z4 -. scoped credentials .-> SI[Enterprise Systems]
+  Z5 -. encryption / backup .-> DATA[DB Graph Vector Object]
+  Z6 -. provider policy .-> AI[LLM / Local Model]
+  Z7 -. logs metrics traces .-> SIEM[SIEM]

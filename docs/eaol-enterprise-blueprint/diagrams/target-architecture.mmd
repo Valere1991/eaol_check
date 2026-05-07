@@ -1,0 +1,45 @@
+flowchart TB
+  U[Users / Executives / Ops] --> UI[EAOL Web & Admin UI]
+  UI --> API[API Gateway]
+  API --> IAM[OIDC/SAML + RBAC/ABAC]
+  API --> POL[Policy & Governance]
+  API --> REASON[Hybrid Reasoning Engine]
+  API --> WF[Workflow Orchestration]
+
+  subgraph Integration Fabric
+    ERP[ERP]
+    CRM[CRM]
+    ITSM[ITSM]
+    BI[BI / DWH]
+    HRIS[HRIS]
+    DOCS[GED / Documents]
+    CONN[Connector Factory]
+    BUS[Kafka Event Bus]
+    NORM[Normalization Service]
+  end
+
+  ERP --> CONN
+  CRM --> CONN
+  ITSM --> CONN
+  BI --> CONN
+  HRIS --> CONN
+  DOCS --> CONN
+  CONN --> BUS --> NORM
+
+  subgraph Knowledge Plane
+    PG[(PostgreSQL + pgvector)]
+    KG[(Neo4j Knowledge Graph)]
+    OBJ[(Object Store)]
+  end
+
+  NORM --> PG
+  NORM --> KG
+  NORM --> OBJ
+
+  REASON --> PG
+  REASON --> KG
+  REASON --> LLM[AI Provider Boundary]
+  REASON --> EXPL[Explainability & Evidence]
+  WF --> HITL[Human Approval]
+  WF --> ACT[Approved Action Connectors]
+  POL --> AUDIT[Immutable Audit]
