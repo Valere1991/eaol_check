@@ -18,6 +18,19 @@ Realm file:
 infra/local/keycloak/eaol-realm.json
 ```
 
+Important: Keycloak imports realm files only during first startup/import. If your Keycloak container was already running before the file existed, run the idempotent apply script:
+
+```bash
+cd /home/ubuntu/.openclaw/workspace/projects/eaol_check
+./infra/local/keycloak/apply-eaol-realm.sh
+```
+
+If you want to delete and recreate the local `eaol` realm from scratch:
+
+```bash
+RESET_REALM=true ./infra/local/keycloak/apply-eaol-realm.sh
+```
+
 It imports realm `eaol`, client `eaol-dashboard`, and users:
 
 | User | Password | Role | Purpose |
